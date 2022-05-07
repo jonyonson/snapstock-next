@@ -1,13 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-const baseUrl = 'https://cloud.iexapis.com/stable';
-const token = process.env.IEX_CLOUD_API_KEY;
+import { IEX_CLOUD } from 'config/constants';
 
-export default async function searchHandler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
+const { BASE_URL, TOKEN } = IEX_CLOUD;
+
+async function searchHandler(req: NextApiRequest, res: NextApiResponse) {
   const { value } = req.query;
-  const url = `${baseUrl}/search/${value}?token=${token}`;
+  const url = `${BASE_URL}/search/${value}?token=${TOKEN}`;
 
   try {
     const response = await fetch(url);
@@ -17,3 +15,5 @@ export default async function searchHandler(
     res.status(500).json({ message: 'Error getting data' });
   }
 }
+
+export default searchHandler;
