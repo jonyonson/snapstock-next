@@ -13,7 +13,10 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
-    --maxWidth: 1000px;
+    --max-width: 1000px;
+    --color-gain: #00845d;
+    --color-loss: #ce2b2b;
+    --color-white: #fff;
   }
 
   main {

@@ -11,7 +11,7 @@ type HeaderProps = {
 
 const StyledHeader = styled.header`
   max-width: 100%;
-  width: var(--maxWidth);
+  width: var(--max-width);
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
