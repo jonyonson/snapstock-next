@@ -15,6 +15,7 @@ export default function Home() {
           price={31500.68}
           change={823.312}
           percentChange={2.5678}
+          loading={false}
         />
       </main>
     </div>

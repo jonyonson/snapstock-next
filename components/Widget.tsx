@@ -6,26 +6,28 @@ type StyledWidgetProps = {
 
 const StyledWidget = styled.div<StyledWidgetProps>`
   font-size: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   color: var(--color-white);
   width: 150px;
-  padding: 5px;
+  height: 60px;
+  padding: 6px;
+  line-height: 1;
 
   background-color: ${({ positiveChange }) =>
     positiveChange ? 'var(--color-gain)' : 'var(--color-loss)'};
 
   .name {
-    font-size: 1.1em;
     font-weight: 600;
   }
 
   .row {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 8px;
   }
 
   .last-time {
-    margin-top: 0.75rem;
     font-size: 0.75em;
     text-transform: uppercase;
     font-weight: 300;
@@ -33,15 +35,21 @@ const StyledWidget = styled.div<StyledWidgetProps>`
 `;
 
 const TriangleDown = styled.div`
-  border-top: 10px solid #fff;
+  border-top: 8px solid var(--color-white);
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 `;
 
 const TriangleUp = styled.div`
-  border-bottom: 10px solid #fff;
+  border-bottom: 8px solid var(--color-white);
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
+`;
+
+const LoadingWidget = styled.div`
+  background-color: var(--color-gray);
+  height: 60px;
+  width: 150px;
 `;
 
 type WidgetProps = {
@@ -49,6 +57,7 @@ type WidgetProps = {
   price: number;
   change: number;
   percentChange: number;
+  loading: boolean;
 };
 
 export default function Widget({
@@ -56,6 +65,7 @@ export default function Widget({
   price,
   change,
   percentChange,
+  loading,
 }: WidgetProps) {
   const formattedPrice = new Intl.NumberFormat().format(price);
   const roundedChange = Math.round((change + Number.EPSILON) * 100) / 100;
@@ -65,6 +75,8 @@ export default function Widget({
   const positiveChange = change > 0;
 
   const prefix = (num: number) => (positiveChange ? `+${num}` : num);
+
+  if (loading) return <LoadingWidget />;
 
   return (
     <StyledWidget positiveChange={positiveChange}>
