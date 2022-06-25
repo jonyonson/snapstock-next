@@ -22,7 +22,7 @@ type Props = {
 function Search({ placeholder, className }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
   const suggestions: Quote[] = useSearch(searchTerm);
-  // const router = useRouter();
+  const router = useRouter();
 
   const handleSearchTermChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -33,7 +33,7 @@ function Search({ placeholder, className }: Props) {
   const handleSelect = (item: string) => {
     const symbol = item.split(',')[0];
     console.log(symbol);
-    // router.push(`/stocks/${symbol.toLowerCase()}`);
+    router.push(`/stocks/${symbol.toLowerCase()}`);
   };
 
   return (
