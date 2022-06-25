@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { API } from '../config/constants';
 
-const cache = {};
-function fetchSuggestions(value) {
+const cache: { [key: string]: Quote } = {};
+
+function fetchSuggestions(value: string) {
   if (cache[value]) {
     return Promise.resolve(cache[value]);
   }
@@ -15,9 +16,10 @@ function fetchSuggestions(value) {
     });
 }
 
-export default function useSearch(searchTerm) {
+export default function useSearch(searchTerm: string): Quote[] {
   const [suggestions, setSuggestions] = useState([]);
 
+  // @ts-ignore
   useEffect(() => {
     if (searchTerm.trim() !== '') {
       let isFresh = true;

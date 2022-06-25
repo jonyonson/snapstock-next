@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import {
   Combobox,
@@ -18,12 +18,6 @@ type Props = {
   placeholder: string;
   className?: string;
 };
-
-interface Quote {
-  symbol: string;
-  name: string;
-  exchange: string;
-}
 
 function Search({ placeholder, className }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -59,7 +53,6 @@ function Search({ placeholder, className }: Props) {
           {suggestions.length ? (
             <ComboboxList>
               {suggestions.map((quote) => {
-                console.log(quote);
                 const value = `${quote.symbol}, ${quote.name}`;
                 return (
                   <ComboboxOption

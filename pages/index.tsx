@@ -16,6 +16,7 @@ export default function Home() {
       </Head>
 
       <main>
+        <h1>Snapstock</h1>
         <Search placeholder="🔍  Search Quotes" />
       </main>
     </div>
