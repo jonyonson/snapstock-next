@@ -32,7 +32,7 @@ function Search({ placeholder, className }: Props) {
 
   const handleSelect = (item: string) => {
     const symbol = item.split(',')[0];
-    console.log(symbol);
+    setSearchTerm('');
     router.push(`/stocks/${symbol.toLowerCase()}`);
   };
 
@@ -46,6 +46,7 @@ function Search({ placeholder, className }: Props) {
       <ComboboxInput
         onChange={handleSearchTermChange}
         placeholder={placeholder}
+        value={searchTerm}
         selectOnClick
       />
       {searchTerm.length > 0 && suggestions && (
