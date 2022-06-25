@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
+
 import {
   Combobox,
   ComboboxInput,
@@ -19,6 +21,37 @@ type Props = {
   className?: string;
 };
 
+const StyledSearch = styled.div`
+  [data-reach-combobox-input] {
+    border: 1px solid rgba(0, 0, 0, 0.4);
+    min-width: 320px;
+    height: 50px;
+    padding: 0.75rem;
+  }
+
+  [data-reach-combobox-input]::placeholder {
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.7);
+    text-align: center;
+    margin-right: 1rem;
+  }
+`;
+
+const StyledComboboxOption = styled.div`
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem;
+
+  div:first-of-type {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+`;
+
 function Search({ placeholder, className }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
   const suggestions: Quote[] = useSearch(searchTerm);
@@ -37,42 +70,44 @@ function Search({ placeholder, className }: Props) {
   };
 
   return (
-    <Combobox
-      openOnFocus
-      aria-label="Search"
-      className={className}
-      onSelect={handleSelect}
-    >
-      <ComboboxInput
-        onChange={handleSearchTermChange}
-        placeholder={placeholder}
-        value={searchTerm}
-        selectOnClick
-      />
-      {searchTerm.length > 0 && suggestions && (
-        <ComboboxPopover>
-          {suggestions.length ? (
-            <ComboboxList>
-              {suggestions.map((quote) => {
-                const value = `${quote.symbol}, ${quote.name}`;
-                return (
-                  <ComboboxOption
-                    key={value}
-                    value={value}
-                    data-testid="combobox-option"
-                  >
-                    <div>
-                      <div>{quote.name}</div>
-                      <div>{quote.symbol}</div>
-                    </div>
-                  </ComboboxOption>
-                );
-              })}
-            </ComboboxList>
-          ) : null}
-        </ComboboxPopover>
-      )}
-    </Combobox>
+    <StyledSearch>
+      <Combobox
+        openOnFocus
+        aria-label="Search"
+        className={className}
+        onSelect={handleSelect}
+      >
+        <ComboboxInput
+          onChange={handleSearchTermChange}
+          placeholder={placeholder}
+          value={searchTerm}
+          selectOnClick
+        />
+        {searchTerm.length > 0 && suggestions && (
+          <ComboboxPopover>
+            {suggestions.length ? (
+              <ComboboxList>
+                {suggestions.map((quote) => {
+                  const value = `${quote.symbol}, ${quote.name}`;
+                  return (
+                    <ComboboxOption
+                      key={value}
+                      value={value}
+                      data-testid="combobox-option"
+                    >
+                      <StyledComboboxOption>
+                        <div>{quote.name}</div>
+                        <div>{quote.symbol}</div>
+                      </StyledComboboxOption>
+                    </ComboboxOption>
+                  );
+                })}
+              </ComboboxList>
+            ) : null}
+          </ComboboxPopover>
+        )}
+      </Combobox>
+    </StyledSearch>
   );
 }
 
