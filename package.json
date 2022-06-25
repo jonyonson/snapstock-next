@@ -9,6 +9,7 @@
     "test:ci": "jest --ci"
   },
   "dependencies": {
+    "@reach/combobox": "^0.17.0",
     "next": "latest",
     "normalize.css": "^8.0.1",
     "react": "^17.0.2",
