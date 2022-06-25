@@ -2,30 +2,11 @@
 
 exports[`renders homepage unchanged 1`] = `
 <div>
-  <div
-    class="container"
-  >
+  <div>
     <main>
       <h1>
         Snapstock
       </h1>
-      <div
-        data-reach-combobox=""
-        data-state="idle"
-      >
-        <input
-          aria-autocomplete="both"
-          aria-controls="listbox--:r0:"
-          aria-expanded="false"
-          aria-haspopup="listbox"
-          aria-label="Search"
-          data-reach-combobox-input=""
-          data-state="idle"
-          placeholder="🔍 Search Quotes"
-          role="combobox"
-          value=""
-        />
-      </div>
     </main>
   </div>
 </div>

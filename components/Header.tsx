@@ -3,7 +3,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 
 // Components
-import Search from './Search/Search';
+import Search from './Search';
 
 type HeaderProps = {
   className?: string;
