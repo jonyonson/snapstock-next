@@ -5,6 +5,9 @@ import { ThemeProvider } from 'styled-components';
 import 'normalize.css/normalize.css';
 import GlobalStyle from 'styles/global.styled';
 
+// Components
+import Page from '@/components/Page';
+
 interface ThemeInterface {
   colors: {
     primary: string;
@@ -22,7 +25,9 @@ function App({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Page>
+          <Component {...pageProps} />
+        </Page>
       </ThemeProvider>
     </>
   );

@@ -12,6 +12,10 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  html {
+    --maxWidth: 1000px;
+  }
+
   main {
     padding: 5rem 0;
     flex: 1;
