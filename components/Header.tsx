@@ -16,7 +16,15 @@ const StyledHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
+  padding: 2rem;
+
+  h1 {
+    margin: 0;
+
+    @media screen and (max-width: 600px) {
+      margin-bottom: 1rem;
+    }
+  }
 
   @media screen and (max-width: 600px) {
     flex-direction: column;
