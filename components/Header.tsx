@@ -17,6 +17,11 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
+
+  @media screen and (max-width: 600px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 function Header({ className }: HeaderProps) {
@@ -34,7 +39,7 @@ function Header({ className }: HeaderProps) {
           </h1>
         </a>
       </Link>
-      <Search placeholder="🔍  Search Quotes" />
+      <Search placeholder="🔍  Search Quotes" className="Search" />
     </StyledHeader>
   );
 }

@@ -22,11 +22,21 @@ type Props = {
 };
 
 const StyledSearch = styled.div`
+  width: 100%;
+
+  @media screen and (min-width: 600px) {
+    width: auto;
+  }
+
   [data-reach-combobox-input] {
     border: 1px solid rgba(0, 0, 0, 0.4);
-    min-width: 320px;
+    width: 100%;
     height: 50px;
     padding: 0.75rem;
+
+    @media screen and (min-width: 600px) {
+      min-width: 320px;
+    }
   }
 
   [data-reach-combobox-input]::placeholder {
