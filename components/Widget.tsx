@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import format from '../lib/format-money';
 
 type StyledWidgetProps = {
   positiveChange: boolean;
@@ -70,7 +71,7 @@ export default function Widget({
   if (loading || price === null || change === null || percentChange === null) {
     return <LoadingWidget />;
   }
-  const formattedPrice = new Intl.NumberFormat().format(price);
+  const formattedPrice = format(price);
   const roundedChange = Math.round((change + Number.EPSILON) * 100) / 100;
   const roundedPercentChange =
     Math.round((percentChange + Number.EPSILON) * 100) / 100;
@@ -80,7 +81,7 @@ export default function Widget({
   const prefix = (num: number) => (positiveChange ? `+${num}` : num);
 
   return (
-    <StyledWidget positiveChange={positiveChange}>
+    <StyledWidget positiveChange={positiveChange} data-testid="widget">
       <div className="row">
         <div className="name">{name}</div>
         <div>{formattedPrice}</div>
