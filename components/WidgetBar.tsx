@@ -14,6 +14,10 @@ const StyledWidgetBar = styled.div`
   > div {
     margin-right: 1rem;
   }
+
+  > div:last-child {
+    margin-right: 0;
+  }
 `;
 
 export default function WidgetBar() {
