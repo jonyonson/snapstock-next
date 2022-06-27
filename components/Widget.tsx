@@ -11,7 +11,7 @@ const StyledWidget = styled.div<StyledWidgetProps>`
   justify-content: space-between;
   color: var(--color-white);
   width: 150px;
-  height: 60px;
+  height: 50px;
   padding: 6px;
   line-height: 1;
 
@@ -48,15 +48,15 @@ const TriangleUp = styled.div`
 
 const LoadingWidget = styled.div`
   background-color: var(--color-gray);
-  height: 60px;
+  height: 50px;
   width: 150px;
 `;
 
 type WidgetProps = {
   name: string;
-  price: number;
-  change: number;
-  percentChange: number;
+  price: number | null;
+  change: number | null;
+  percentChange: number | null;
   loading: boolean;
 };
 
@@ -67,6 +67,9 @@ export default function Widget({
   percentChange,
   loading,
 }: WidgetProps) {
+  if (loading || price === null || change === null || percentChange === null) {
+    return <LoadingWidget />;
+  }
   const formattedPrice = new Intl.NumberFormat().format(price);
   const roundedChange = Math.round((change + Number.EPSILON) * 100) / 100;
   const roundedPercentChange =
@@ -75,8 +78,6 @@ export default function Widget({
   const positiveChange = change > 0;
 
   const prefix = (num: number) => (positiveChange ? `+${num}` : num);
-
-  if (loading) return <LoadingWidget />;
 
   return (
     <StyledWidget positiveChange={positiveChange}>
@@ -89,7 +90,7 @@ export default function Widget({
         <div>{prefix(roundedChange)}</div>
         <div>{prefix(roundedPercentChange) + '%'}</div>
       </div>
-      <div className="last-time">Last | 4:22:19 PM EDT</div>
+      {/* <div className="last-time">Last | 4:22:19 PM EDT</div> */}
     </StyledWidget>
   );
 }
