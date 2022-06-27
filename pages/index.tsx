@@ -10,13 +10,6 @@ export default function Home() {
       </Head>
       <main>
         <h1>Snapstock</h1>
-        <Widget
-          name="DJIA"
-          price={31500.68}
-          change={823.312}
-          percentChange={2.5678}
-          loading={false}
-        />
       </main>
     </div>
   );
