@@ -2,7 +2,21 @@ import styled from 'styled-components';
 import format from '../lib/format-money';
 
 type StyledWidgetProps = {
-  positiveChange: boolean;
+  positiveChange: boolean | null;
+  loading: boolean;
+};
+
+type StyledTriangleProps = {
+  loading: boolean;
+  gain: boolean | null;
+};
+
+type WidgetProps = {
+  name: string;
+  price: number | null;
+  change: number | null;
+  percentChange: number | null;
+  loading: boolean;
 };
 
 const StyledWidget = styled.div<StyledWidgetProps>`
@@ -16,8 +30,10 @@ const StyledWidget = styled.div<StyledWidgetProps>`
   padding: 6px;
   line-height: 1;
 
-  background-color: ${({ positiveChange }) =>
-    positiveChange ? 'var(--color-gain)' : 'var(--color-loss)'};
+  background-color: ${({ positiveChange, loading }) => {
+    if (loading) return 'var(--color-gray)';
+    return positiveChange ? 'var(--color-gain)' : 'var(--color-loss)';
+  }};
 
   .name {
     font-weight: 600;
@@ -35,31 +51,21 @@ const StyledWidget = styled.div<StyledWidgetProps>`
   }
 `;
 
-const TriangleDown = styled.div`
-  border-top: 8px solid var(--color-white);
+const borderColor = (loading: boolean) =>
+  loading ? 'var(--color-gray)' : 'var(--color-white)';
+
+const borderBottom = ({ loading, gain }: StyledTriangleProps) =>
+  `${gain ? '8px' : '0'} solid ${borderColor(loading)}`;
+
+const borderTop = ({ loading, gain }: StyledTriangleProps) =>
+  `${gain ? '0' : '8px'} solid ${borderColor(loading)}`;
+
+const Triangle = styled.div<StyledTriangleProps>`
+  border-bottom: ${(props) => borderBottom(props)};
+  border-top: ${(props) => borderTop(props)};
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
 `;
-
-const TriangleUp = styled.div`
-  border-bottom: 8px solid var(--color-white);
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-`;
-
-const LoadingWidget = styled.div`
-  background-color: var(--color-gray);
-  height: 50px;
-  width: 150px;
-`;
-
-type WidgetProps = {
-  name: string;
-  price: number | null;
-  change: number | null;
-  percentChange: number | null;
-  loading: boolean;
-};
 
 export default function Widget({
   name,
@@ -68,28 +74,34 @@ export default function Widget({
   percentChange,
   loading,
 }: WidgetProps) {
-  if (loading || price === null || change === null || percentChange === null) {
-    return <LoadingWidget />;
-  }
-  const formattedPrice = format(price);
-  const roundedChange = Math.round((change + Number.EPSILON) * 100) / 100;
-  const roundedPercentChange =
-    Math.round((percentChange + Number.EPSILON) * 100) / 100;
+  const formattedPrice = price !== null ? format(price) : null;
 
-  const positiveChange = change > 0;
+  const roundedChange =
+    change !== null ? Math.round((change + Number.EPSILON) * 100) / 100 : 0;
+
+  const roundedPercentChange =
+    percentChange !== null
+      ? Math.round((percentChange + Number.EPSILON) * 100) / 100
+      : 0;
+
+  const positiveChange = change !== null ? change > 0 : null;
 
   const prefix = (num: number) => (positiveChange ? `+${num}` : num);
 
   return (
-    <StyledWidget positiveChange={positiveChange} data-testid="widget">
+    <StyledWidget
+      positiveChange={positiveChange}
+      loading={loading}
+      data-testid="widget"
+    >
       <div className="row">
         <div className="name">{name}</div>
-        <div>{formattedPrice}</div>
+        <div>{loading ? '--' : formattedPrice}</div>
       </div>
       <div className="row">
-        {positiveChange ? <TriangleUp /> : <TriangleDown />}
-        <div>{prefix(roundedChange)}</div>
-        <div>{prefix(roundedPercentChange) + '%'}</div>
+        <Triangle loading={loading} gain={positiveChange} />
+        <div>{loading ? '--' : prefix(roundedChange)}</div>
+        <div>{loading ? '--' : prefix(roundedPercentChange) + '%'}</div>
       </div>
       {/* <div className="last-time">Last | 4:22:19 PM EDT</div> */}
     </StyledWidget>
