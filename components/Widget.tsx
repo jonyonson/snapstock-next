@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import format from '../lib/format-money';
 
 type StyledWidgetProps = {
-  positiveChange: boolean | null;
-  loading: boolean;
+  $positiveChange: boolean | null;
+  $loading: boolean;
 };
 
 type StyledTriangleProps = {
-  loading: boolean;
-  gain: boolean | null;
+  $loading: boolean;
+  $gain: boolean | null;
 };
 
 type WidgetProps = {
@@ -30,9 +30,9 @@ const StyledWidget = styled.div<StyledWidgetProps>`
   padding: 6px;
   line-height: 1;
 
-  background-color: ${({ positiveChange, loading }) => {
-    if (loading) return 'var(--color-gray)';
-    return positiveChange ? 'var(--color-gain)' : 'var(--color-loss)';
+  background-color: ${({ $positiveChange, $loading }) => {
+    if ($loading) return 'var(--color-gray)';
+    return $positiveChange ? 'var(--color-gain)' : 'var(--color-loss)';
   }};
 
   .name {
@@ -51,14 +51,14 @@ const StyledWidget = styled.div<StyledWidgetProps>`
   }
 `;
 
-const borderColor = (loading: boolean) =>
-  loading ? 'var(--color-gray)' : 'var(--color-white)';
+const borderColor = ($loading: boolean) =>
+  $loading ? 'var(--color-gray)' : 'var(--color-white)';
 
-const borderBottom = ({ loading, gain }: StyledTriangleProps) =>
-  `${gain ? '8px' : '0'} solid ${borderColor(loading)}`;
+const borderBottom = ({ $loading, $gain }: StyledTriangleProps) =>
+  `${$gain ? '8px' : '0'} solid ${borderColor($loading)}`;
 
-const borderTop = ({ loading, gain }: StyledTriangleProps) =>
-  `${gain ? '0' : '8px'} solid ${borderColor(loading)}`;
+const borderTop = ({ $loading, $gain }: StyledTriangleProps) =>
+  `${$gain ? '0' : '8px'} solid ${borderColor($loading)}`;
 
 const Triangle = styled.div<StyledTriangleProps>`
   border-bottom: ${(props) => borderBottom(props)};
@@ -90,8 +90,8 @@ export default function Widget({
 
   return (
     <StyledWidget
-      positiveChange={positiveChange}
-      loading={loading}
+      $positiveChange={positiveChange}
+      $loading={loading}
       data-testid="widget"
     >
       <div className="row">
@@ -99,7 +99,7 @@ export default function Widget({
         <div>{loading ? '--' : formattedPrice}</div>
       </div>
       <div className="row">
-        <Triangle loading={loading} gain={positiveChange} />
+        <Triangle $loading={loading} $gain={positiveChange} />
         <div>{loading ? '--' : prefix(roundedChange)}</div>
         <div>{loading ? '--' : prefix(roundedPercentChange) + '%'}</div>
       </div>
