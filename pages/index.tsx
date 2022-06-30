@@ -1,4 +1,3 @@
-import Widget from '@/components/Widget';
 import Head from 'next/head';
 
 export default function Home() {
