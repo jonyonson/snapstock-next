@@ -1,13 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { FLASK_APP } from 'config/constants';
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  const { BASE_URL, INDICES } = FLASK_APP;
-  const url = `${BASE_URL}/${INDICES}`;
-  console.log(url);
+export default async function handler(_: NextApiRequest, res: NextApiResponse) {
+  const url = 'https://snapstock.herokuapp.com/api/stocks/market/indices';
 
   try {
     const response = await fetch(url);

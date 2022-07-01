@@ -13,9 +13,9 @@ type StyledTriangleProps = {
 
 type WidgetProps = {
   name: string;
-  price: number | null;
-  change: number | null;
-  percentChange: number | null;
+  price: number | undefined;
+  change: number | undefined;
+  percentChange: number | undefined;
   loading: boolean;
 };
 
@@ -74,17 +74,19 @@ export default function Widget({
   percentChange,
   loading,
 }: WidgetProps) {
-  const formattedPrice = price !== null ? format(price) : null;
+  const formattedPrice = price ? format(price) : null;
 
   const roundedChange =
-    change !== null ? Math.round((change + Number.EPSILON) * 100) / 100 : 0;
+    change !== undefined
+      ? Math.round((change + Number.EPSILON) * 100) / 100
+      : 0;
 
   const roundedPercentChange =
-    percentChange !== null
+    percentChange !== undefined
       ? Math.round((percentChange + Number.EPSILON) * 100) / 100
       : 0;
 
-  const positiveChange = change !== null ? change > 0 : null;
+  const positiveChange = change !== undefined ? change > 0 : null;
 
   const prefix = (num: number) => (positiveChange ? `+${num}` : num);
 

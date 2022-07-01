@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useIndices from '../hooks/use-indices';
 
 // Components
 import Widget from './Widget';
@@ -21,47 +21,34 @@ const StyledWidgetBar = styled.div`
 `;
 
 export default function WidgetBar() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [dow, setDow] = useState(null);
-  const [nasdaq, setNasdaq] = useState(null);
-  const [sp500, setSp500] = useState(null);
+  const { dow, nasdaq, sp500, loading, error } = useIndices();
+  if (error) {
+    console.error(error);
+  }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetch('/api/indices');
-      const json = await data.json();
-
-      const { dow, sp500, nasdaq } = json;
-      setIsLoading(false);
-      setDow(dow);
-      setSp500(sp500);
-      setNasdaq(nasdaq);
-    };
-
-    fetchData().catch(console.error);
-  }, []);
+  const isLoading = loading || error;
 
   return (
     <StyledWidgetBar>
       <Widget
         loading={isLoading}
-        change={dow?.['Change'] || null}
-        percentChange={dow?.['Percent Change'] || null}
-        price={dow?.['Quote Price'] || null}
+        change={dow?.change}
+        percentChange={dow?.percentChange}
+        price={dow?.price}
         name="DJIA"
       />
       <Widget
         loading={isLoading}
-        change={nasdaq?.['Change'] || null}
-        percentChange={nasdaq?.['Percent Change'] || null}
-        price={nasdaq?.['Quote Price'] || null}
+        change={nasdaq?.change}
+        percentChange={nasdaq?.percentChange}
+        price={nasdaq?.price}
         name="NASDAQ"
       />
       <Widget
         loading={isLoading}
-        change={sp500?.['Change'] || null}
-        percentChange={sp500?.['Percent Change'] || null}
-        price={sp500?.['Quote Price'] || null}
+        change={sp500?.change}
+        percentChange={sp500?.percentChange}
+        price={sp500?.price}
         name="S&P 500"
       />
     </StyledWidgetBar>
