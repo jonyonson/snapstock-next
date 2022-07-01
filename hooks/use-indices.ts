@@ -1,6 +1,9 @@
 import fetch from '../lib/fetch';
 import useSWR from 'swr';
 
+// Constants
+import { API } from 'config/constants';
+
 interface Index {
   yearRange: string;
   avgVolume: number;
@@ -20,7 +23,7 @@ type Indices = {
 };
 
 function useIndices(refreshInterval = 10000) {
-  const { data, error } = useSWR<Indices>('/api/indices', fetch, {
+  const { data, error } = useSWR<Indices>(API.INDICIES, fetch, {
     refreshInterval,
   });
 
