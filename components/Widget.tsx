@@ -1,69 +1,14 @@
 import useQuote from '../hooks/use-quote';
-import styled from 'styled-components';
 import format from '../lib/format-money';
 
-type StyledWidgetProps = {
-  $isChangePositive: boolean | null;
-  $loading: boolean;
-};
-
-type StyledTriangleProps = {
-  $loading: boolean;
-  $gain: boolean | null;
-};
+// Styles
+import StyledTriangle from './styles/Triangle.styled';
+import StyledWidget from './styles/Widget.styled';
 
 type WidgetProps = {
   name: string;
   symbol: string;
 };
-
-const StyledWidget = styled.div<StyledWidgetProps>`
-  font-size: 0.7rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: var(--color-white);
-  width: 150px;
-  height: 50px;
-  padding: 6px;
-  line-height: 1;
-
-  background-color: ${({ $isChangePositive, $loading }) => {
-    if ($loading) return 'var(--color-gray)';
-    return $isChangePositive ? 'var(--color-gain)' : 'var(--color-loss)';
-  }};
-
-  .name {
-    font-weight: 600;
-  }
-
-  .row {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .last-time {
-    font-size: 0.75em;
-    text-transform: uppercase;
-    font-weight: 300;
-  }
-`;
-
-const borderColor = ($loading: boolean) =>
-  $loading ? 'var(--color-gray)' : 'var(--color-white)';
-
-const borderBottom = ({ $loading, $gain }: StyledTriangleProps) =>
-  `${$gain ? '8px' : '0'} solid ${borderColor($loading)}`;
-
-const borderTop = ({ $loading, $gain }: StyledTriangleProps) =>
-  `${$gain ? '0' : '8px'} solid ${borderColor($loading)}`;
-
-const Triangle = styled.div<StyledTriangleProps>`
-  border-bottom: ${(props) => borderBottom(props)};
-  border-top: ${(props) => borderTop(props)};
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-`;
 
 const REFRESHING_INTERVAL = process.env.NODE_ENV === 'development' ? 0 : 15000;
 
@@ -104,7 +49,7 @@ export default function Widget({ name, symbol }: WidgetProps) {
         <div>{displayLoadingOrValue(formattedPrice)}</div>
       </div>
       <div className="row">
-        <Triangle $loading={loading} $gain={isChangePositive} />
+        <StyledTriangle $loading={loading} $gain={isChangePositive} />
         <div>{displayLoadingOrValue(prefix(roundedChange))}</div>
         <div>{displayLoadingOrValue(prefix(roundedPercentChange)) + '%'}</div>
       </div>

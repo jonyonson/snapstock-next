@@ -1,36 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import styled from 'styled-components';
 
 // Components
 import Search from './Search';
 
+// Styles
+import StyledHeader from './styles/Header.styled';
+
 type HeaderProps = {
   className?: string;
 };
-
-const StyledHeader = styled.header`
-  max-width: 100%;
-  width: var(--max-width);
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem;
-
-  h1 {
-    margin: 0;
-
-    @media screen and (max-width: 600px) {
-      margin-bottom: 1rem;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-`;
 
 function Header({ className }: HeaderProps) {
   return (
