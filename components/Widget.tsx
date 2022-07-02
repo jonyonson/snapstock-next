@@ -1,8 +1,9 @@
+import useQuote from 'hooks/use-quote';
 import styled from 'styled-components';
 import format from '../lib/format-money';
 
 type StyledWidgetProps = {
-  $positiveChange: boolean | null;
+  $isChangePositive: boolean | null;
   $loading: boolean;
 };
 
@@ -13,10 +14,7 @@ type StyledTriangleProps = {
 
 type WidgetProps = {
   name: string;
-  price: number | undefined;
-  change: number | undefined;
-  percentChange: number | undefined;
-  loading: boolean;
+  symbol: string;
 };
 
 const StyledWidget = styled.div<StyledWidgetProps>`
@@ -30,9 +28,9 @@ const StyledWidget = styled.div<StyledWidgetProps>`
   padding: 6px;
   line-height: 1;
 
-  background-color: ${({ $positiveChange, $loading }) => {
+  background-color: ${({ $isChangePositive, $loading }) => {
     if ($loading) return 'var(--color-gray)';
-    return $positiveChange ? 'var(--color-gain)' : 'var(--color-loss)';
+    return $isChangePositive ? 'var(--color-gain)' : 'var(--color-loss)';
   }};
 
   .name {
@@ -67,14 +65,14 @@ const Triangle = styled.div<StyledTriangleProps>`
   border-right: 5px solid transparent;
 `;
 
-export default function Widget({
-  name,
-  price,
-  change,
-  percentChange,
-  loading,
-}: WidgetProps) {
-  const formattedPrice = price ? format(price) : null;
+export default function Widget({ name, symbol }: WidgetProps) {
+  const { data, loading } = useQuote(symbol, 10000);
+
+  const price = data?.price;
+  const change = data?.change;
+  const percentChange = data?.percentChange;
+
+  const formattedPrice = format(price);
 
   const roundedChange =
     change !== undefined
@@ -86,24 +84,27 @@ export default function Widget({
       ? Math.round((percentChange + Number.EPSILON) * 100) / 100
       : 0;
 
-  const positiveChange = change !== undefined ? change > 0 : null;
+  const isChangePositive = data?.change !== undefined ? data.change > 0 : null;
 
-  const prefix = (num: number) => (positiveChange ? `+${num}` : num);
+  const prefix = (num: number) => (isChangePositive ? `+${num}` : num);
 
+  const displayLoadingOrValue = (value: any) => {
+    return loading ? '--' : value;
+  };
   return (
     <StyledWidget
-      $positiveChange={positiveChange}
+      $isChangePositive={isChangePositive}
       $loading={loading}
       data-testid="widget"
     >
       <div className="row">
         <div className="name">{name}</div>
-        <div>{loading ? '--' : formattedPrice}</div>
+        <div>{displayLoadingOrValue(formattedPrice)}</div>
       </div>
       <div className="row">
-        <Triangle $loading={loading} $gain={positiveChange} />
-        <div>{loading ? '--' : prefix(roundedChange)}</div>
-        <div>{loading ? '--' : prefix(roundedPercentChange) + '%'}</div>
+        <Triangle $loading={loading} $gain={isChangePositive} />
+        <div>{displayLoadingOrValue(prefix(roundedChange))}</div>
+        <div>{displayLoadingOrValue(prefix(roundedPercentChange)) + '%'}</div>
       </div>
       {/* <div className="last-time">Last | 4:22:19 PM EDT</div> */}
     </StyledWidget>

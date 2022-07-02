@@ -1,3 +1,4 @@
+import useQuote from 'hooks/use-quote';
 import styled from 'styled-components';
 import useIndices from '../hooks/use-indices';
 
@@ -21,36 +22,13 @@ const StyledWidgetBar = styled.div`
 `;
 
 export default function WidgetBar() {
-  const { dow, nasdaq, sp500, loading, error } = useIndices();
-  if (error) {
-    console.error(error);
-  }
-
-  const isLoading = loading || error;
-
   return (
     <StyledWidgetBar>
-      <Widget
-        loading={isLoading}
-        change={dow?.change}
-        percentChange={dow?.percentChange}
-        price={dow?.price}
-        name="DJIA"
-      />
-      <Widget
-        loading={isLoading}
-        change={nasdaq?.change}
-        percentChange={nasdaq?.percentChange}
-        price={nasdaq?.price}
-        name="NASDAQ"
-      />
-      <Widget
-        loading={isLoading}
-        change={sp500?.change}
-        percentChange={sp500?.percentChange}
-        price={sp500?.price}
-        name="S&P 500"
-      />
+      <Widget name="DJIA" symbol="^dji" />
+      <Widget name="NASDAQ" symbol="^ixic" />
+      <Widget name="S&amp;P 500" symbol="^gspc" />
+      <Widget name="RUSS 2K" symbol="^rut" />
+      <Widget name="VIX" symbol="^vix" />
     </StyledWidgetBar>
   );
 }

@@ -18,13 +18,11 @@ const CONSTANTS = {
   API: {
     SEARCH: '/api/search',
     INDICIES: '/api/indices',
+    QUOTE: '/api/quote',
   },
   EXTERNAL_API: {
-    MARKET_INDICES: {
-      HEROKU_NODE: 'https://snapstock.herokuapp.com/api/stocks/market/indices',
-      VERCEL_PYTHON: 'https://snapstock-market-indices-api.vercel.app/api',
-      // key names do not map correctly
-      HEROKU_PYTHON: 'https://snapstock-flask.herokuapp.com/indices',
+    FLASK_APP: {
+      QUOTE: 'https://snapstock-flask.herokuapp.com/api/quote',
     },
     IEX_CLOUD: {
       BASE_URL: IEX_CLOUD_BASE_URL,
