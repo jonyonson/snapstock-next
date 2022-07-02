@@ -65,8 +65,10 @@ const Triangle = styled.div<StyledTriangleProps>`
   border-right: 5px solid transparent;
 `;
 
+const REFRESHING_INTERVAL = process.env.NODE_ENV === 'development' ? 0 : 15000;
+
 export default function Widget({ name, symbol }: WidgetProps) {
-  const { data, loading, error } = useQuote(symbol, 10000);
+  const { data, loading } = useQuote(symbol, REFRESHING_INTERVAL);
 
   const price = data?.price;
   const change = data?.change;
