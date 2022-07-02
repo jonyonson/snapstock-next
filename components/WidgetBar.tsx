@@ -1,6 +1,4 @@
-import useQuote from 'hooks/use-quote';
 import styled from 'styled-components';
-import useIndices from '../hooks/use-indices';
 
 // Components
 import Widget from './Widget';
