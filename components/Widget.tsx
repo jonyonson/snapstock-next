@@ -1,4 +1,4 @@
-import useQuote from 'hooks/use-quote';
+import useQuote from '../hooks/use-quote';
 import styled from 'styled-components';
 import format from '../lib/format-money';
 
@@ -66,7 +66,7 @@ const Triangle = styled.div<StyledTriangleProps>`
 `;
 
 export default function Widget({ name, symbol }: WidgetProps) {
-  const { data, loading } = useQuote(symbol, 10000);
+  const { data, loading, error } = useQuote(symbol, 10000);
 
   const price = data?.price;
   const change = data?.change;
