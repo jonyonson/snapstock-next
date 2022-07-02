@@ -9,29 +9,41 @@ const USE_FLASK_API_TO_FETCH = [
   '%5Evix', // CBOE Volatility Index (^vix)
 ];
 
+function getFetchUrl(symbol: string) {
+  const { BASE_URL, TOKEN } = EXTERNAL_API.IEX_CLOUD;
+  symbol = encodeURI(symbol);
+
+  if (USE_FLASK_API_TO_FETCH.includes(symbol)) {
+    return `${EXTERNAL_API.FLASK_APP.QUOTE}/${symbol}`;
+  }
+
+  return `${BASE_URL}/stock/${symbol}/batch?types=quote,company,stats&token=${TOKEN}`;
+}
+
+export async function fetchQuote(symbol: string) {
+  const url = getFetchUrl(symbol);
+  const response = await fetch(url);
+
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    throw new Error(response.statusText);
+  }
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  let { symbol, types } = req.query;
-  symbol = encodeURI(symbol as string);
-
-  let url;
-  if (USE_FLASK_API_TO_FETCH.includes(symbol as string)) {
-    url = `${EXTERNAL_API.FLASK_APP.QUOTE}/${symbol}`;
-  } else {
-    const baseUrl = EXTERNAL_API.IEX_CLOUD.BASE_URL;
-    const apiKey = EXTERNAL_API.IEX_CLOUD.TOKEN;
-    // TODO: don't need intraday-prices until charts are implemented
-    // url = `${baseUrl}/stock/${symbol}/batch?types=quote,company,intraday-prices,stats&token=${apiKey}`;
-    url = `${baseUrl}/stock/${symbol}/batch?types=quote,company,stats&token=${apiKey}`;
-  }
+  let { symbol } = req.query;
 
   try {
-    const response = await fetch(url);
-    const data = await response.json();
+    const data = await fetchQuote(symbol as string);
     res.status(200).json(data);
-  } catch (err) {
-    res.status(500).json({ message: 'Error getting data' });
+  } catch (error) {
+    let message = 'Unknown Error';
+    if (error instanceof Error) message = error.message;
+    res.status(500).json({ message });
   }
 }
