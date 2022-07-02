@@ -6,11 +6,13 @@ import useSearch from '../../hooks/use-search';
 
 jest.mock('../../hooks/use-search');
 
-const mockResults = [{ symbol: 'AAPL', name: 'Apple Inc.' }];
-
 describe('Search', () => {
   it('renders a listbox when input is not empty', async () => {
-    (useSearch as jest.Mock).mockReturnValue(mockResults);
+    (useSearch as jest.Mock).mockReturnValue({
+      suggestions: [{ symbol: 'AAPL', name: 'Apple Inc.' }],
+      error: undefined,
+      loading: false,
+    });
     render(<Search placeholder="Search" />);
 
     const input = screen.getByPlaceholderText('Search') as HTMLInputElement;

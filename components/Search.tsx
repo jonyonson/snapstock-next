@@ -64,7 +64,7 @@ const StyledComboboxOption = styled.div`
 
 function Search({ placeholder, className }: Props) {
   const [searchTerm, setSearchTerm] = useState('');
-  const suggestions: Quote[] = useSearch(searchTerm);
+  const { suggestions } = useSearch(searchTerm);
   const router = useRouter();
 
   const handleSearchTermChange = (

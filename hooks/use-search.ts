@@ -1,38 +1,22 @@
-import { useEffect, useState } from 'react';
+import fetch from '../lib/fetch';
+import useSWR from 'swr';
+
+// Constants
 import { API } from '../config/constants';
 
-const cache: { [key: string]: Quote } = {};
+const HOUR = 1000 * 60 * 60;
 
-function fetchSuggestions(value: string) {
-  if (cache[value]) {
-    return Promise.resolve(cache[value]);
-  }
+function useSearch(value: string) {
+  const url = `${API.SEARCH}/${value}`;
+  const { data, error } = useSWR<Suggestion[]>(value ? url : null, fetch, {
+    dedupingInterval: HOUR,
+  });
 
-  return fetch(`${API.SEARCH}/${value}`)
-    .then((res) => res.json())
-    .then((result) => {
-      cache[value] = result;
-      return result;
-    });
+  return {
+    suggestions: data,
+    error,
+    loading: !error && !data,
+  };
 }
 
-export default function useSearch(searchTerm: string): Quote[] {
-  const [suggestions, setSuggestions] = useState([]);
-
-  // @ts-ignore
-  useEffect(() => {
-    if (searchTerm.trim() !== '') {
-      let isFresh = true;
-      fetchSuggestions(searchTerm).then((results) => {
-        if (isFresh) {
-          setSuggestions(results);
-        }
-      });
-      return () => (isFresh = false);
-    } else {
-      setSuggestions([]);
-    }
-  }, [searchTerm]);
-
-  return suggestions;
-}
+export default useSearch;

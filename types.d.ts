@@ -5,8 +5,13 @@ declare module '*module.css' {
   export default styles;
 }
 
-declare interface Quote {
+declare interface Suggestion {
   symbol: string;
-  name: string;
   exchange: string;
+  exchangeSuffix: string;
+  name: string;
+  type: string;
+  region: string;
+  currency: string;
+  sector: string;
 }
