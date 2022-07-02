@@ -35,7 +35,7 @@ function Search({ placeholder, className }: SearchProps) {
   const handleSelect = (item: string) => {
     const symbol = item.split(',')[0];
     setSearchTerm('');
-    router.push(`/stocks/${symbol.toLowerCase()}`);
+    router.push(`/quote/${symbol.toUpperCase()}`);
   };
 
   return (
