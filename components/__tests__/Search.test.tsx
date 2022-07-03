@@ -24,4 +24,8 @@ describe('Search', () => {
     expect(listbox).toBeVisible();
     expect(option).toHaveTextContent(/aapl/i);
   });
+
+  it('should fail', () => {
+    expect(true).toBe(false);
+  });
 });
