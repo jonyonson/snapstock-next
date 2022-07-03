@@ -20,6 +20,7 @@ export default function Quote({ quote, company, stats }: QuotePageProps) {
         </title>
       </Head>
       <h1>{symbol}</h1>
+      <h1>{stats.companyName}</h1>
       <h2>{quote.latestPrice}</h2>
       <p>{company.description}</p>
     </div>

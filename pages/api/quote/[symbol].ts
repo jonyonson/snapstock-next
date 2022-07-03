@@ -36,7 +36,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  let { symbol } = req.query;
+  const { symbol } = req.query;
 
   try {
     const data = await fetchQuote(symbol as string);
