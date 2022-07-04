@@ -35,7 +35,7 @@ export default function Widget({ name, symbol }: WidgetProps) {
 
   const prefix = (num: number) => (isChangePositive ? `+${num}` : num);
 
-  const displayLoadingOrValue = (value: any) => {
+  const displayLoadingOrValue = (value: string | number | undefined) => {
     return loading ? '--' : value;
   };
   return (
