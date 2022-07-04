@@ -42,7 +42,6 @@ export default function Widget({ name, symbol }: WidgetProps) {
         <div>{displayLoadingOrValue(formattedChange)}</div>
         <div>{displayLoadingOrValue(formattedPercentChange)}</div>
       </div>
-      {/* <div className="last-time">Last | 4:22:19 PM EDT</div> */}
     </StyledWidget>
   );
 }
