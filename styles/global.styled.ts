@@ -18,6 +18,7 @@ const GlobalStyle = createGlobalStyle`
     --color-loss: #ce2b2b;
     --color-white: #fff;
     --color-gray: #9b9b9b;
+    --color-primary: #0070f3;
   }
 
   main {
