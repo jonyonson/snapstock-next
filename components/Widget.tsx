@@ -15,25 +15,14 @@ const REFRESHING_INTERVAL = process.env.NODE_ENV === 'development' ? 0 : 15000;
 export default function Widget({ name, symbol }: WidgetProps) {
   const { data, loading } = useQuote(symbol, REFRESHING_INTERVAL);
 
-  const price = data?.price;
-  const change = data?.change;
-  const percentChange = data?.percentChange;
-
-  const formattedPrice = format(price);
-
-  const roundedChange =
-    change !== undefined
-      ? Math.round((change + Number.EPSILON) * 100) / 100
-      : 0;
-
-  const roundedPercentChange =
-    percentChange !== undefined
-      ? Math.round((percentChange + Number.EPSILON) * 100) / 100
-      : 0;
+  const formattedPrice = format(data?.price);
+  const formattedChange = format(data?.change, { prefix: '+' });
+  const formattedPercentChange = format(data?.percentChange, {
+    prefix: '+',
+    suffix: '%',
+  });
 
   const isChangePositive = data?.change !== undefined ? data.change > 0 : null;
-
-  const prefix = (num: number) => (isChangePositive ? `+${num}` : num);
 
   const displayLoadingOrValue = (value: string | number | undefined) => {
     return loading ? '--' : value;
@@ -50,8 +39,8 @@ export default function Widget({ name, symbol }: WidgetProps) {
       </div>
       <div className="row">
         <StyledTriangle $loading={loading} $gain={isChangePositive} />
-        <div>{displayLoadingOrValue(prefix(roundedChange))}</div>
-        <div>{displayLoadingOrValue(prefix(roundedPercentChange)) + '%'}</div>
+        <div>{displayLoadingOrValue(formattedChange)}</div>
+        <div>{displayLoadingOrValue(formattedPercentChange)}</div>
       </div>
       {/* <div className="last-time">Last | 4:22:19 PM EDT</div> */}
     </StyledWidget>
