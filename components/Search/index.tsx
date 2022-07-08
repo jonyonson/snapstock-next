@@ -10,11 +10,11 @@ import {
 } from '@reach/combobox';
 
 // Hooks
-import useSearch from '../hooks/use-search';
+import useSearch from '../../hooks/use-search';
 
 // Styles
 import '@reach/combobox/styles.css';
-import StyledSearch, { StyledComboboxOption } from './styles/Search.styled';
+import StyledSearch, { StyledComboboxOption } from './Search.styled';
 
 type SearchProps = {
   placeholder: string;

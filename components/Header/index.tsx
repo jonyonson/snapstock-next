@@ -2,10 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 // Components
-import Search from './Search';
+import Search from '../Search';
 
 // Styles
-import StyledHeader from './styles/Header.styled';
+import StyledHeader from './Header.styled';
 
 type HeaderProps = {
   className?: string;

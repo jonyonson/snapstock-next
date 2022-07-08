@@ -2,7 +2,7 @@
 import Widget from './Widget';
 
 // Styles
-import StyledWidgetBar from './styles/WidgetBar.styled';
+import StyledWidgetBar from './WidgetBar.styled';
 
 export default function WidgetBar() {
   return (

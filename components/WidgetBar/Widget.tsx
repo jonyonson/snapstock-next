@@ -1,9 +1,9 @@
-import useQuote from '../hooks/use-quote';
-import format from '../lib/format-money';
+import useQuote from '../../hooks/use-quote';
+import format from '../../lib/format-money';
 
 // Styles
-import StyledTriangle from './styles/Triangle.styled';
-import StyledWidget from './styles/Widget.styled';
+import StyledTriangle from './Triangle.styled';
+import StyledWidget from './Widget.styled';
 
 type WidgetProps = {
   name: string;

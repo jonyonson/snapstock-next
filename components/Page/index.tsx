@@ -1,6 +1,6 @@
-import Header from './Header';
-import WidgetBar from './WidgetBar';
-import StyledPage from './styles/Page.styled';
+import Header from '../Header';
+import WidgetBar from '../WidgetBar';
+import StyledPage from './Page.styled';
 
 type PageProps = {
   children: JSX.Element;
