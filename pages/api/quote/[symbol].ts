@@ -11,10 +11,10 @@ const USE_FLASK_API_TO_FETCH = [
 
 function getFetchUrl(symbol: string) {
   const { BASE_URL, TOKEN } = EXTERNAL_API.IEX_CLOUD;
-  symbol = encodeURI(symbol);
+  const encodedSymbol = encodeURI(symbol);
 
-  if (USE_FLASK_API_TO_FETCH.includes(symbol)) {
-    return `${EXTERNAL_API.FLASK_APP.QUOTE}/${symbol}`;
+  if (USE_FLASK_API_TO_FETCH.includes(encodedSymbol)) {
+    return `${EXTERNAL_API.FLASK_APP.QUOTE}/${encodedSymbol}`;
   }
 
   return `${BASE_URL}/stock/${symbol}/batch?types=quote,company,stats&token=${TOKEN}`;
@@ -38,8 +38,13 @@ export default async function handler(
 ) {
   const { symbol } = req.query;
 
+  if (!symbol || typeof symbol !== 'string') {
+    res.status(404).json({ message: 'Please provide a symbol.' });
+    return;
+  }
+
   try {
-    const data = await fetchQuote(symbol as string);
+    const data = await fetchQuote(symbol);
     res.status(200).json(data);
   } catch (error) {
     let message = 'Unknown Error';
