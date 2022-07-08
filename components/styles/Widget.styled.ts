@@ -11,10 +11,14 @@ const StyledWidget = styled.div<StyledWidgetProps>`
   flex-direction: column;
   justify-content: space-between;
   color: var(--color-white);
-  width: 150px;
+  min-width: 135px;
   height: 50px;
   padding: 6px;
   line-height: 1;
+
+  @media screen and (min-width: 600px) {
+    min-width: 160px;
+  }
 
   background-color: ${({ $isChangePositive, $loading }) => {
     if ($loading) return 'var(--color-gray)';
